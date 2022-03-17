@@ -1,10 +1,14 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, substring
+
 if __name__ == '__main__':
+    
     spark = SparkSession.builder.appName("AppName").master("local[*]").config("hive.metastore.uris", "thrift://localhost:9083/")\
             .config("spark.sql.warehouse.dir", "hdfs://localhost:9000/user/hive/warehouse/") \
             .enableHiveSupport().getOrCreate()
+    
     spark.sql("use adventureworks")
+    
     df1= spark.sql("Select * from ext_cust")
     df2= df1.dropna()
     # df2.show()
@@ -23,7 +27,7 @@ if __name__ == '__main__':
                      df3.NumberChildrenAtHome.cast("int"),df3.Education,df3.Occupation,df3.HomeOwnerFlag.cast("int"),
                      df3.NumberCarsOwned.cast("int"),df3.CommuteDistance)
 
-    df4.show()
+    # df4.show()
     # df4.printSchema()
     df4.write.mode("overwrite").format("parquet").saveAsTable("adventureworks.sqlhive")
 
