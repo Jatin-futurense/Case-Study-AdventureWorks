@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+. script.env
 
 #Importing Customer_individual view From Mysql Adventureworks Database to HDFS Using Sqoop
 sqoop import --connect jdbc:mysql://$host:$port/$db?useSSL=False \
